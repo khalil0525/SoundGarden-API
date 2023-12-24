@@ -1,22 +1,55 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const cors = require('cors');
+const { User } = require('./db/models');
+const jwt = require('jsonwebtoken');
+const session = require('express-session');
+const sessionStore = new SequelizeStore({ db });
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+require('dotenv').config();
+const { json, urlencoded } = express;
 
-var app = express();
+const app = express();
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(
+  cors({
+    origin: '*',
+  })
+);
+
+app.use(logger('dev'));
+app.use(json());
+app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use((req, res, next) => {
+  const token = req.headers['x-access-token'];
+  if (token) {
+    jwt.verify(token, process.env.SESSION_SECRET, (err, decoded) => {
+      if (err) {
+        // send to error
+        return next();
+      }
 
+      User.findOne({
+        where: { id: decoded.id },
+      }).then((user) => {
+        req.user = user;
+        return next();
+      });
+    });
+  } else {
+    return next();
+  }
+});
+
+// API ROUTES
+app.use('/auth', require('./routes/auth'));
+app.use('/api', require('./routes/api'));
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
