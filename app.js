@@ -7,6 +7,7 @@ const cors = require('cors');
 const { User } = require('./db/models');
 const jwt = require('jsonwebtoken');
 const session = require('express-session');
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const sessionStore = new SequelizeStore({ db });
 
 require('dotenv').config();
@@ -66,4 +67,4 @@ app.use(function (err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+module.exports = { app, sessionStore };
