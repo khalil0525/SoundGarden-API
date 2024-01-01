@@ -22,6 +22,8 @@ const app = express();
 // Here we will set a policy for various domains/ips
 // Detailing what they can and cannot do in a request
 // [MIDDLEWARE]
+
+// MIDDLEWARE STARTS HERE --------------------------------------------------
 app.use(
   cors({
     origin: ['https://facebook.com', 'https://youtube.com'],
@@ -60,10 +62,13 @@ app.use((req, res, next) => {
     return next();
   }
 });
+// MIDDLEWARE ENDS HERE --------------------------------------------------
 
 // API ROUTES
+// app.use('/subroute', './route-file')
+
 app.use('/auth', require('./routes/auth'));
-// app.use('/api', require('./routes/api'));
+app.use('/api', require('./routes/api'));
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
