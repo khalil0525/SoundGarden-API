@@ -15,20 +15,31 @@ const sessionStore = new SequelizeStore({ db });
 require('dotenv').config();
 const { json, urlencoded } = express;
 
+// APP START
 const app = express();
 
+// First middleware we pass through during a request.
+// Here we will set a policy for various domains/ips
+// Detailing what they can and cannot do in a request
+// [MIDDLEWARE]
 app.use(
   cors({
-    origin: '*',
+    origin: ['https://facebook.com', 'https://youtube.com'],
   })
 );
 
+// Enable logging for request [MIDDLEWARE]
 app.use(logger('dev'));
+// Parse the request into JSON [MIDDLEWARE]
 app.use(json());
+// Parse the URL encoded strings in the request [MIDDLEWARE]
 app.use(urlencoded({ extended: false }));
+// Parse the cookies in the request into readable format [MIDDLEWARE]
 app.use(cookieParser());
+// Enable the app to communicate with /public folder [MIDDLEWARE]
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Auth check [MIDDLEWARE]
 app.use((req, res, next) => {
   const token = req.headers['x-access-token'];
   if (token) {
