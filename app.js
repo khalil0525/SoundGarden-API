@@ -6,6 +6,7 @@ const logger = require('morgan');
 const cors = require('cors');
 const { User } = require('./db/models');
 const jwt = require('jsonwebtoken');
+const db = require('./db');
 const session = require('express-session');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const sessionStore = new SequelizeStore({ db });
@@ -50,7 +51,7 @@ app.use((req, res, next) => {
 
 // API ROUTES
 app.use('/auth', require('./routes/auth'));
-app.use('/api', require('./routes/api'));
+// app.use('/api', require('./routes/api'));
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
