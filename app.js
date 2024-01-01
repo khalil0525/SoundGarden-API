@@ -4,7 +4,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
-const { User } = require('./db/models');
+
 const jwt = require('jsonwebtoken');
 const db = require('./db');
 const { User } = require('./db');
