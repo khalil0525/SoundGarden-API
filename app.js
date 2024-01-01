@@ -7,6 +7,7 @@ const cors = require('cors');
 const { User } = require('./db/models');
 const jwt = require('jsonwebtoken');
 const db = require('./db');
+const { User } = require('./db');
 const session = require('express-session');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const sessionStore = new SequelizeStore({ db });
