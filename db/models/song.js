@@ -32,7 +32,7 @@ const Song = db.define(
       type: Sequelize.STRING,
       allowNull: false,
     },
-    photoUrl: {
+    photoURL: {
       type: Sequelize.STRING,
       allowNull: false,
       validate: {
@@ -42,7 +42,6 @@ const Song = db.define(
     userId: {
       type: Sequelize.INTEGER,
       allowNull: false,
-      unique: true,
     },
     permalink: {
       type: Sequelize.STRING,

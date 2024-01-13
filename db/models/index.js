@@ -8,14 +8,41 @@
 
 const User = require("./user");
 const Song = require("./song");
+const SongDownload = require("./songDownload");
 
 User.hasMany(Song, {
   foreignKey: "userId",
 });
 Song.belongsTo(User);
 
+Song.hasMany(SongDownload, {
+  foreignKey: {
+    name: "songId",
+    allowNull: false,
+  },
+});
+SongDownload.belongsTo(Song, {
+  foreignKey: {
+    name: "songId",
+    allowNull: false,
+  },
+});
+
+Song.hasMany(SongDownload, {
+  foreignKey: {
+    name: "userId",
+    allowNull: false,
+  },
+});
+SongDownload.belongsTo(Song, {
+  foreignKey: {
+    name: "userId",
+    allowNull: false,
+  },
+});
+
 //associations go here
 
 //Export the models here. You can now target ./db/models to import any model into another place outside the DB folder
 
-module.exports = { User, Song };
+module.exports = { User, Song, SongDownload };
