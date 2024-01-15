@@ -8,38 +8,14 @@
 
 const User = require("./user");
 const Song = require("./song");
-const SongDownload = require("./songDownload");
 
 User.hasMany(Song, {
   foreignKey: "userId",
 });
 Song.belongsTo(User);
 
-Song.hasMany(SongDownload, {
-  foreignKey: {
-    name: "songId",
-    allowNull: false,
-  },
-});
-SongDownload.belongsTo(Song, {
-  foreignKey: {
-    name: "songId",
-    allowNull: false,
-  },
-});
-
-Song.hasMany(SongDownload, {
-  foreignKey: {
-    name: "userId",
-    allowNull: false,
-  },
-});
-SongDownload.belongsTo(Song, {
-  foreignKey: {
-    name: "userId",
-    allowNull: false,
-  },
-});
+Song.belongsToMany(User, { through: "Songdownload" });
+User.belongsToMany(Song, { through: "Songdownload" });
 
 //associations go here
 
