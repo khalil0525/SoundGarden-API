@@ -14,8 +14,8 @@ User.hasMany(Song, {
 });
 Song.belongsTo(User);
 
-Song.belongsToMany(User, { through: "Songdownload" });
-User.belongsToMany(Song, { through: "Songdownload" });
+Song.belongsToMany(User, { through: "SongDownload" });
+User.belongsToMany(Song, { through: "SongDownload" });
 
 //associations go here
 
