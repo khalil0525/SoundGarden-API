@@ -17,6 +17,8 @@ Song.belongsTo(User);
 
 Song.belongsToMany(User, { through: "SongDownload" });
 User.belongsToMany(Song, { through: "SongDownload" });
+Song.belongsToMany(User, { through: "SongRepost" });
+User.belongsToMany(Song, { through: "SongRepost" });
 
 //associations go here
 
